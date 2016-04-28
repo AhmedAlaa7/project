@@ -93,24 +93,52 @@ public function database_query ( $database_query )
 
 public function insert_query ( $tableName, $data_aray_assoc )
 	{
-		// Please, read this comment and remove it when you code!
-		// Hello Ahmed, You should take the following into your work.
-		// $data_aray_assoc is an associative array.
-			// Its key is the column name, and Its value is the data
-		// 1 ) This fucntion returns `true`  when insertion is correct.
-		 	// this means that you will execute the query.
-		// 2 ) This function returns `False` when insertion is no done.
-	} // end insert_query()
+		$fields = $values = array();
+
+		foreach ( $data_aray_assoc  as $key => $value) {
+		$fields[] = "$key";
+		if ($value != "") {
+      		$values[] = " ' " . $value . " ' ";
+    		} else {
+      		$values[] = "NULL";
+    		}
+		}
+		
+		$fields = implode(",", $fields);
+   	 	$values = implode(",", $values);
+		$insert_users = "INSERT INTO $tableName ($fields) VALUES ($values)" ;
+		$query = mysqli_query($connect, $insert_users);
+                                        if ($query) {
+                                           return true;
+                                    } else {
+                                          return false;
+                                    }
+                  }
 
 
 
 public function update_query ( $tableName, $data_array_assoc, $where="")
 	{
-		// Please, read this comment and remove it when you code!
-		// 1 ) This fucntion execute the update quey after generating it, and Return `ture`
-		// else
-		// 2 ) This function returns `False` when insertion is no done.
+		$fields = $values = array();
+
+		foreach ( $data_aray_assoc  as $key => $value) {
+		$fields[] = "$key";
+		if ($value != "") {
+      		$values[] = " ' " . $value . " ' ";
+    		} else {
+      		$values[] = "NULL";
+    		}
+		}
 		
+		$fields = implode(",", $fields);
+   	 	$values = implode(",", $values);
+		$update_users = "update $tableName SET ($fields) = ($values) where = ($where);
+		$query = mysqli_query($connect, $update_users)" ;
+                                        if ($query) {
+                                           return true;
+                                      } else {
+                                          return false;
+                                    }
 	} // end update_query()
 
 } // end class_database	
